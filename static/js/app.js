@@ -29,7 +29,7 @@ function buildCharts(sample){
             title: "Top 10 OTUs Found in Individual"
         };
 
-        plotly.newPlot("bar", bar_data, layout)
+        Plotly.newPlot("bar", bar_data, layout)
 
         // Create a bubble chart that displays each sample.
         var bubble_data = [{
@@ -51,8 +51,41 @@ function buildCharts(sample){
     });
 };
 
+// Display each key-value pair from the metadata JSON object on the page.
+function buildMetadata(sample){
+    d3.json(url).then((data) => {
+        var value = data.metadata.filter(result => result.id === sample);
+        var valueData = value[0];
 
+        d3.select("#sample-metadata").html("");
+
+        Object.entries(valueData).forEach(([key, value]) => {
+            d3.select("#sample-metadata").append("h5").text(`${key}:${value}`);
+        });
+    });
+};
 
 // Display the sample metadata, i.e., an individual's demographic information.
-// Display each key-value pair from the metadata JSON object on the page.
+function init(){
+    var dropdown = d3.select("#selDataset");
+
+    // Use Sample Names for Select Options
+    d3.json(url).then((data) => {
+        let names = data.names;
+        names.forEach((id) => {
+            dropdown.append("Option").text(id).property("value", id);
+        });
+        
+        
+        // Build First Plots
+        var firstSample = names[0];
+        buildCharts(firstSample);
+        buildMetadata(firstSample);
+    });
+
+        
+    
+};
+
+init();
 // Update all the plots when a new sample is selected.
