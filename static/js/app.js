@@ -22,8 +22,9 @@ function buildCharts(sample){
             y: otu_ids.slice(0, 10).map(id => `OTU ${id}`).reverse(),
             // Use `otu_labels` as the hover text for the chart.
             text: otu_labels,
-            type: "bar"}
-        ];
+            type: "bar",
+            orientation: "h"
+        }];
 
         let layout = {
             title: "Top 10 OTUs Found in Individual"
@@ -39,7 +40,7 @@ function buildCharts(sample){
             y: sample_values,
             // Use `otu_labels` for the text values.
             text: otu_labels,
-            mode: "marker",
+            mode: "markers",
             marker: {
                 // Use `sample_values` for the marker size.
                 size: sample_values,
@@ -47,6 +48,8 @@ function buildCharts(sample){
                 colors: otu_ids
             }
         }];
+
+        Plotly.newPlot("bubble", bubble_data);
         
     });
 };
