@@ -87,5 +87,10 @@ function init(){
     
 };
 
-init();
 // Update all the plots when a new sample is selected.
+function optionChanged(sample){
+    buildCharts(sample);
+    buildMetadata(sample);
+};
+
+init();
